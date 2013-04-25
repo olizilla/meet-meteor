@@ -8,30 +8,27 @@
 		{{loginButtons align="right"}}	
 		<h1 class="brand">Meteor London</h1>
 	</header>
-	<section id="intro">
-		<p>A monthly meetup making web apps on <a href="http://meteor.com">Meteor</a></p>
-	</section>
-	
-	<section>
-		<h2>The Next Event</h2>
-	</section>
 
-	<section>
-		<h2>Things made</h2>
+<!-- 	<section id="intro">
+		<p>A monthly meetup making web apps on <a href="http://meteor.com">Meteor</a></p>
+	</section> -->
+	
+	<section id="next-event">
+		{{> meetupEvent }}
 	</section>
 	
 	<section>
 		<h2>Made by</h2>
+		<p>
+			<a href="https://twitter.com/olizilla">@olizilla</a> with Meteor, accounts-meetup and the meetup api.
+		</p>
 	</section>
 
-	<section>
-		<h2>With</h2>
-	</section>
-	{{> hello}}
 </body>
 
-<template name="hello">
-	<h1>Hello World!</h1>
-	{{greeting}}
-	<input type="button" value="Click" />
+<template name="meetupEvent">
+    <p>Next event: </p>
+    <h2>{{nextEvent.name}}</h2>
+	<p>{{nextEvent.time}} At: {{nextEvent.venue.name}}</p>
+	<div>{{{nextEvent.description}}}</div>
 </template>

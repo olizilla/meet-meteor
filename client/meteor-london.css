@@ -20,7 +20,8 @@ section{
 	padding:4px 10px;
 }
 header{
-	background: white;
+	color:white;
+	background: black;
 	border-bottom: 2px solid #ccc;
 }
 h1{
