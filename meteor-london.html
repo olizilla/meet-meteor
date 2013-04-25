@@ -1,13 +1,37 @@
 <head>
-  <title>meteor-london</title>
+	<title>Meteor london</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
-  {{> hello}}
+	<header>
+		{{loginButtons align="right"}}	
+		<h1 class="brand">Meteor London</h1>
+	</header>
+	<section id="intro">
+		<p>A monthly meetup making web apps on <a href="http://meteor.com">Meteor</a></p>
+	</section>
+	
+	<section>
+		<h2>The Next Event</h2>
+	</section>
+
+	<section>
+		<h2>Things made</h2>
+	</section>
+	
+	<section>
+		<h2>Made by</h2>
+	</section>
+
+	<section>
+		<h2>With</h2>
+	</section>
+	{{> hello}}
 </body>
 
 <template name="hello">
-  <h1>Hello World!</h1>
-  {{greeting}}
-  <input type="button" value="Click" />
+	<h1>Hello World!</h1>
+	{{greeting}}
+	<input type="button" value="Click" />
 </template>
