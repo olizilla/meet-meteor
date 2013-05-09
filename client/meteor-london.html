@@ -34,13 +34,15 @@
 
 <template name="upcomingMeetup">
 	{{#each events}}
-    <h2>{{name}}</h2>
-	<p>
-		<span title="{{dateTimeFormat time}}">{{calandarFormat time}}</span> 
-		<span>- {{#if venue}}at: {{venue.name}}{{else}}Venue TBC{{/if}}</span>
-		<span>- {{yes_rsvp_count}} attendee{{#if yes_rsvp_count}}s{{/if}}</span>
-	</p>
-	<div>{{{description}}}</div>
+	<div class="block">
+		<h2>{{name}}</h2>
+		<p>
+			<span title="{{dateTimeFormat time}}">{{calandarFormat time}}</span> 
+			<span>- {{#if venue}}at: {{venue.name}}{{else}}Venue TBC{{/if}}</span>
+			<span>- {{yes_rsvp_count}} attendee{{#if yes_rsvp_count}}s{{/if}}</span>
+		</p>
+		<div>{{{description}}}</div>
+	</div>
 	{{/each}}
 </template>
 
