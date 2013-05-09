@@ -1,4 +1,5 @@
 var meetupEventsUrl = 'http://api.meetup.com/2/events?status=upcoming&order=time&limited_events=False&group_urlname=Meteor-London&desc=false&offset=0&format=json&page=20&fields=&sig_id=11394360&sig=a0cdf7ab7db53b06be0b4679905ee8ad771749df';
+var meetupEventDataUrl = 'http://api.meetup.com/2/event/{{event_id}}?key=' + Meteor.settings.meetupApiKey;
 
 Meteor.startup(function(){
 	requestMeetupData();
@@ -18,14 +19,30 @@ var requestMeetupData = function(){
 		}
 
 		result.data.results.forEach(function(meetupEvent){
-			var gotIt = Events.findOne({id: meetupEvent.id });
-			if (!gotIt){
-				console.log('Adding event:', meetupEvent.name);
-				Events.insert(meetupEvent);
-			} else{
-				console.log('Updating event:', meetupEvent.name);
-				Events.update(gotIt._id, meetupEvent);
-			}			
+			
+			var metaUrl = meetupEventDataUrl.replace('{{event_id}}', meetupEvent.id);
+			
+			Meteor.http.get(metaUrl, function(err, response) {
+				if(err) {
+					return console.error('Failed to retrieve event data', metaUrl, meetupEvent.name, err);
+				}
+				
+				if(response.statusCode !== 200 || !response.data) {
+					return console.error('Invalid event data response', metaUrl, meetupEvent.name, response.statusCode);
+				}
+				
+				meetupEvent.meta = response.data;
+				
+				var gotIt = Events.findOne({id: meetupEvent.id });
+				
+				if (!gotIt){
+					console.log('Adding event:', meetupEvent.name);
+					Events.insert(meetupEvent);
+				} else{
+					console.log('Updating event:', meetupEvent.name);
+					Events.update(gotIt._id, meetupEvent);
+				}
+			});
 		});
 	});
 };
