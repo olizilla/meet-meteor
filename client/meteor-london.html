@@ -13,8 +13,14 @@
 		<p>A monthly meetup making web apps on <a href="http://meteor.com">Meteor</a></p>
 	</section> -->
 	
-	<section id="next-event">
-		{{> meetupEvent }}
+	<section id="upcoming-events">
+		<h3>Coming Soon:</h3>
+		{{> upcomingMeetup }}
+	</section>
+
+	<section id="previous-events">
+		<h3>Past Events</h3>
+		{{> previousMeetup }}
 	</section>
 	
 	<section>
@@ -26,9 +32,21 @@
 
 </body>
 
-<template name="meetupEvent">
-    <p>Next event: </p>
-    <h2>{{nextEvent.name}}</h2>
-	<p>{{nextEvent.time}} At: {{nextEvent.venue.name}}</p>
-	<div>{{{nextEvent.description}}}</div>
+<template name="upcomingMeetup">
+	{{#each events}}
+    <h2>{{name}}</h2>
+	<p>
+		<span title="{{dateTimeFormat time}}">{{calandarFormat time}}</span> 
+		<span>- {{#if venue}}at: {{venue.name}}{{else}}Venue TBC{{/if}}</span>
+	</p>
+	<div>{{{description}}}</div>
+	{{/each}}
+</template>
+
+<template name="previousMeetup">
+	<ul>
+		{{#each events}}
+		<li>{{dateFormat time}}: {{name}}</li>
+		{{/each}}
+	</ul>
 </template>
