@@ -1,4 +1,7 @@
 /* CSS declarations go here */
+html,body{
+    min-height: 100%;
+}
 html {
     background: #f5f5f5;
     color: #111;
@@ -76,7 +79,7 @@ h1{
 	overflow: hidden;
 	position: relative;
 	max-width: 800px;
-	min-width: 320px;
+	min-width: 220px;
     position: relative;
 
     border-right:solid 2px gold;

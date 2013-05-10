@@ -9,43 +9,46 @@ Meteor.startup(function(){
 var requestMeetupData = function(){
 	console.log('Requesting meetup data');
 
-	Meteor.http.get(meetupEventsUrl, function(error, result){
-		console.log('Response: ' + result.statusCode /*, result.data */);
+	Meteor.http.get(meetupEventsUrl, function(error, response){
+		console.log('Response: ' + response.statusCode /*, response.data */);
 
-		if(result.statusCode !== 200 || !result.data.results){
+		if(response.statusCode !== 200 || !response.data.results){
 			// bad ju ju
 			console.log("Couldn't untangle the response.");
 			return; 
 		}
 
-		result.data.results.forEach(function(meetupEvent){
-			
-			var metaUrl = meetupEventDataUrl.replace('{{event_id}}', meetupEvent.id);
-			
-			Meteor.http.get(metaUrl, function(err, response) {
-				if(err) {
-					return console.error('Failed to retrieve event data', metaUrl, meetupEvent.name, err);
-				}
-				
-				if(response.statusCode !== 200 || !response.data) {
-					return console.error('Invalid event data response', metaUrl, meetupEvent.name, response.statusCode);
-				}
-				
-				meetupEvent.meta = response.data;
-				
-				var gotIt = Events.findOne({id: meetupEvent.id });
-				
-				if (!gotIt){
-					console.log('Adding event:', meetupEvent.name);
-					Events.insert(meetupEvent);
-				} else{
-					console.log('Updating event:', meetupEvent.name);
-					Events.update(gotIt._id, meetupEvent);
-				}
-			});
-		});
+		response.data.results.forEach(findAdditionalData);
 	});
 };
+
+// Make a request for the full info for a given meetup event
+function findAdditionalData(meetupEvent){
+
+    var metaUrl = meetupEventDataUrl.replace('{{event_id}}', meetupEvent.id);
+
+    Meteor.http.get(metaUrl, function(err, response) {
+        if(err) {
+            return console.error('Failed to retrieve event data', metaUrl, meetupEvent.name, err);
+        }
+
+        if(response.statusCode !== 200 || !response.data) {
+            return console.error('Invalid event data response', metaUrl, meetupEvent.name, response.statusCode);
+        }
+
+        meetupEvent.meta = response.data;
+
+        var gotIt = Events.findOne({id: meetupEvent.id });
+
+        if (!gotIt){
+            console.log('Adding event:', meetupEvent.name);
+            Events.insert(meetupEvent);
+        } else{
+            console.log('Updating event:', meetupEvent.name);
+            Events.update(gotIt._id, meetupEvent);
+        }
+    });
+}
 
 /* example response
 
