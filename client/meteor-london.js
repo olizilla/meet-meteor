@@ -10,6 +10,10 @@ Template.previousMeetup.events = function(){
   return Events.find({time: { $lt: Date.now() }}).fetch();
 };
 
+Template.upcomingMeetup.fromNowFormat = function(ms){
+    return moment(ms).fromNow();
+};
+
 Template.upcomingMeetup.calandarFormat = function(ms){
 	return moment(ms).calendar();
 };

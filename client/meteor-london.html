@@ -5,10 +5,9 @@
 
 <body>
 	<header>
-		<h1 class="brand">Meteor London</h1>
+		<h1 class="brand"><div class="logo"></div>Meteor London</h1>
 	</header>
 	<section id="upcoming-events">
-		<h3>Coming Soon:</h3>
 		{{> upcomingMeetup }}
 	</section>
 	<section id="previous-events">
@@ -34,6 +33,7 @@
 			<span>- {{yes_rsvp_count}} attendee{{#if yes_rsvp_count}}s{{/if}}</span>
 		</p>
 		<div>{{{description}}}</div>
+        <div class="countdown">{{fromNowFormat time}}</div>
 	</div>
 	{{/each}}
 </template>
