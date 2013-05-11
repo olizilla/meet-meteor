@@ -1,6 +1,3 @@
-var meetupEventsUrl = 'http://api.meetup.com/2/events?status=upcoming&order=time&limited_events=False&group_urlname=Meteor-London&desc=false&offset=0&format=json&page=20&fields=&sig_id=11394360&sig=a0cdf7ab7db53b06be0b4679905ee8ad771749df';
-var meetupEventDataUrl = 'http://api.meetup.com/2/event/{{event_id}}?key=' + Meteor.settings.meetupApiKey;
-
 Meteor.startup(function(){
 	requestMeetupData();
 	Meteor.setInterval(requestMeetupData, 1000 * 60);
@@ -8,9 +5,10 @@ Meteor.startup(function(){
 
 // get /events info from api.meetup.com
 function requestMeetupData(){
-	console.log('Requesting meetup data');
+    var eventsUrl = 'https://api.meetup.com/2/events';
+    var opts = { status: 'past,upcoming,cancelled' };
 
-    getFromMeetup(meetupEventsUrl, function(error, response){
+    getFromMeetup(eventsUrl, opts, function(error, response){
         if(error) return;
 
         response.data.results.forEach(updateOrInsertEvent);
@@ -30,25 +28,22 @@ function updateOrInsertEvent(meetupEvent){
     }
 }
 
-// TODO: not used at the moment, seems to return the same data as the /events data.
-// Make a request for the full info for a given meetup event
-function findAdditionalData(meetupEvent){
+// Common meetup api request params and response sanity checking
+function getFromMeetup(url, opts, cb){
 
-    var metaUrl = meetupEventDataUrl.replace('{{event_id}}', meetupEvent.id);
+    if(typeof opts === 'function'){
+        cb = opts;
+    }
 
-    getFromMeetup(metaUrl, function(error, response){
-        if(error) return;
+    opts.group_id = Meteor.settings.group_id;
 
-        meetupEvent.meta = response.data;
-    });
-}
+    opts.key = Meteor.settings.meetupApiKey;
 
-// Common meetup api response sanity checking
-function getFromMeetup(url, cb){
+    opts.sign = true;
 
-    console.log('Request:  ' + url);
+    console.log('Request:  ' + url, opts);
 
-    Meteor.http.get(url, function(error, response){
+    Meteor.http.get(url, { params: opts }, function(error, response){
 
         console.log('Response: ' + response.statusCode);
 
