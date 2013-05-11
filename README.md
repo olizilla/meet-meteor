@@ -29,6 +29,6 @@ TODO
 Refactor server logic:
 - Get upcoming events info
 - Get group info
-- Get additional info, photos, ratings for past events.
-
+- Get additional info, photos, ratings for past events. `https://api.meetup.com/2/photos?&sign=true&event_id=112837102&page=20`
+http://www.meetup.com/meetup_api/console/?path=/2/photos
 in that order.

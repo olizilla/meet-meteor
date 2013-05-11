@@ -6,49 +6,77 @@ Meteor.startup(function(){
 	Meteor.setInterval(requestMeetupData, 1000 * 60);
 });
 
-var requestMeetupData = function(){
+// get /events info from api.meetup.com
+function requestMeetupData(){
 	console.log('Requesting meetup data');
 
-	Meteor.http.get(meetupEventsUrl, function(error, response){
-		console.log('Response: ' + response.statusCode /*, response.data */);
+    getFromMeetup(meetupEventsUrl, function(error, response){
+        if(error) return;
 
-		if(response.statusCode !== 200 || !response.data.results){
-			// bad ju ju
-			console.log("Couldn't untangle the response.");
-			return; 
-		}
-
-		response.data.results.forEach(findAdditionalData);
-	});
+        response.data.results.forEach(updateOrInsertEvent);
+    });
 };
 
+// Match up event info to entries we already know about, or make a new one
+function updateOrInsertEvent(meetupEvent){
+    var existingEvent = Events.findOne({id: meetupEvent.id });
+
+    if (existingEvent){
+        console.log('Updating event:', meetupEvent.name);
+        Events.update(existingEvent._id, meetupEvent);
+    } else{
+        console.log('Adding event:', meetupEvent.name);
+        Events.insert(meetupEvent);
+    }
+}
+
+// TODO: not used at the moment, seems to return the same data as the /events data.
 // Make a request for the full info for a given meetup event
 function findAdditionalData(meetupEvent){
 
     var metaUrl = meetupEventDataUrl.replace('{{event_id}}', meetupEvent.id);
 
-    Meteor.http.get(metaUrl, function(err, response) {
-        if(err) {
-            return console.error('Failed to retrieve event data', metaUrl, meetupEvent.name, err);
-        }
-
-        if(response.statusCode !== 200 || !response.data) {
-            return console.error('Invalid event data response', metaUrl, meetupEvent.name, response.statusCode);
-        }
+    getFromMeetup(metaUrl, function(error, response){
+        if(error) return;
 
         meetupEvent.meta = response.data;
-
-        var gotIt = Events.findOne({id: meetupEvent.id });
-
-        if (!gotIt){
-            console.log('Adding event:', meetupEvent.name);
-            Events.insert(meetupEvent);
-        } else{
-            console.log('Updating event:', meetupEvent.name);
-            Events.update(gotIt._id, meetupEvent);
-        }
     });
 }
+
+// Common meetup api response sanity checking
+function getFromMeetup(url, cb){
+
+    console.log('Request:  ' + url);
+
+    Meteor.http.get(url, function(error, response){
+
+        console.log('Response: ' + response.statusCode);
+
+        if(!response.data.results){ // bad ju ju
+            var errorMsg = "Response lacks requisit data";
+            console.log(errorMsg, response);
+            cb(errorMsg);
+        }
+
+        // OK GO!
+        cb(error, response)
+    });
+}
+
+//function findPhotos(meetupEvent){
+//    var eventId = '112837102'
+//    var apiUrl = 'https://api.meetup.com/2/photos?&sign=true&event_id{{event_id}}=&page=20'
+//
+//    Meteor.http.get(metaUrl, function(err, response) {
+//        if(err) {
+//            return console.error('Failed to retrieve event data', metaUrl, meetupEvent.name, err);
+//        }
+//
+//        if(response.statusCode !== 200 || !response.data) {
+//            return console.error('Invalid event data response', metaUrl, meetupEvent.name, response.statusCode);
+//        }
+//    }
+//}
 
 /* example response
 

@@ -13,7 +13,7 @@ html {
 }
 body{
 	margin:0;
-	padding: 0 0 50px;
+	padding: 0;
 	background: #eee;
     box-shadow: inset 2px 2px 20px rgba(0,0,0,0.2);
 
@@ -36,13 +36,17 @@ a:hover{
     text-decoration: underline;
 }
 header,
-section{
+section,
+footer{
 	padding:4px 16px;
 }
 header{
 	color:#fff;
 	background: black;
 	border-bottom: 2px solid #ccc;
+}
+footer{
+    background: rgba(255,255,255,0.2);
 }
 h1{
 	margin: 0;
@@ -54,7 +58,7 @@ h1{
     height:23px;
     border-radius: 23px;
     background: #fff;
-    box-shadow: inset 3px 2px 1px rgba(0,0,0,0.4);
+    box-shadow: inset 4px 2px 2px rgba(0,0,0,0.4);
 }
 .brand{
     font-family: 'Helvetica Neue',Helvetica,Arial,san-serif;
@@ -81,8 +85,10 @@ h1{
 	max-width: 800px;
 	min-width: 220px;
     position: relative;
-
     border-right:solid 2px gold;
+}
+#previous-events .block{
+    border-right-color: #ccc;
 }
 .block h2 {
 	border-bottom: 1px solid rgba(0, 0, 0, 0.06);
@@ -91,7 +97,7 @@ h1{
 	line-height: 1;
 	padding: 0 0 0.9em 0;
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
-    font-family: impact;
+    font-family: Impact, Futura, Gill Sans, "Courier New" ;
     letter-spacing: 2px;
     margin-bottom: 0px;
 }

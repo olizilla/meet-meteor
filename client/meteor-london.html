@@ -13,12 +13,12 @@
 	<section id="previous-events">
 		{{> previousMeetup }}
 	</section>
-	<section>
-		<h3>Made by</h3>
+	<footer>
 		<p>
-            <a href="https://twitter.com/_alanshaw">@_alanshaw</a> &amp; <a href="https://twitter.com/olizilla">@olizilla</a> with Meteor, accounts-meetup and the meetup api.
+            Made by <a href="https://twitter.com/_alanshaw">@_alanshaw</a> &amp; <a href="https://twitter.com/olizilla">@olizilla</a> with
+            <a href="http://meteor.com">Meteor</a>, <a href="#">accounts-meetup</a> and the <a href="http://api.meetup.com">meetup api</a>.
 		</p>
-	</section>
+	</footer>
 </body>
 
 <template name="upcomingMeetup">
@@ -37,10 +37,12 @@
 </template>
 
 <template name="previousMeetup">
-    <h3>Past Events</h3>
-	<ul>
-		{{#each events}}
-		<li>{{dateFormat time}}: {{name}}</li>
-		{{/each}}
-	</ul>
+    <div class="block">
+        <h3>Past Events</h3>
+        <ul>
+            {{#each events}}
+            <li>{{dateFormat time}}: {{name}}</li>
+            {{/each}}
+        </ul>
+    </div>
 </template>
