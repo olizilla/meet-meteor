@@ -3,11 +3,11 @@ Meteor.startup(function(){
 });
 
 Template.upcomingMeetup.events = function(){
-  return Events.find({time: { $gt: Date.now() }}).fetch();
+  return Events.find({time: { $gt: Date.now() }}, { sort: [['time', 'desc']]}).fetch();
 };
 
 Template.previousMeetup.events = function(){
-  return Events.find({time: { $lt: Date.now() }}).fetch();
+  return Events.find({time: { $lt: Date.now() }}, { sort: [['time', 'desc']]}).fetch();
 };
 
 Template.upcomingMeetup.fromNowFormat = function(ms){
@@ -19,7 +19,7 @@ Template.upcomingMeetup.calandarFormat = function(ms){
 };
 
 Template.upcomingMeetup.dateTimeFormat = function(ms){
-	return moment(ms).format('MMMM Do YYYY, h:mm:ss a');
+	return moment(ms).format('MMMM Do YYYY, h:mm a');
 };
 
 Template.previousMeetup.dateFormat = function(ms){
