@@ -42,7 +42,10 @@
         <h3>Past Events</h3>
         <ul>
             {{#each events}}
-            <li>{{dateFormat time}}: {{name}}</li>
+            <li>
+                <div class="time">{{dateFormat time}} - {{yes_rsvp_count}} attended</div>
+                <a class="name" href="{{event_url}}">{{name}}</a>
+            </li>
             {{/each}}
         </ul>
     </div>
