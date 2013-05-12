@@ -12,9 +12,11 @@ html {
     -webkit-text-size-adjust: 100%;
 }
 body{
+    position:relative;
+    overflow-x: hidden;
     min-height: 100%;
 	margin:0;
-	padding: 0;
+	padding: 0 0 60px;
 	background: #eee;
     box-shadow: inset 2px 2px 20px rgba(0,0,0,0.2);
 
@@ -51,6 +53,9 @@ header{
 	border-bottom: 2px solid #ccc;
 }
 footer{
+    position: absolute;
+    bottom:0;
+    width:100%;
     background: rgba(255,255,255,0.2);
 }
 h1{
