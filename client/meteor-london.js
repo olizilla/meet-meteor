@@ -25,3 +25,13 @@ Template.upcomingMeetup.dateTimeFormat = function(ms){
 Template.previousMeetup.dateFormat = function(ms){
 	return moment(ms).format('MMMM Do YYYY');
 };
+
+Template.upcomingMeetup.rendered = onLoad
+Template.previousMeetup.rendered = onLoad
+
+function onLoad(){
+    var loadings = $(this.find('.loading'));
+    Meteor.defer(function(){
+        loadings.removeClass('loading');
+    });
+}

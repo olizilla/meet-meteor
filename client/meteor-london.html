@@ -23,7 +23,7 @@
 
 <template name="upcomingMeetup">
 	{{#each events}}
-	<div class="block">
+	<div class="block loading">
 		<h2>{{name}}</h2>
 		<p>
 			<span title="{{dateTimeFormat time}}">{{dateTimeFormat time}}</span>
@@ -38,7 +38,7 @@
 </template>
 
 <template name="previousMeetup">
-    <div class="block">
+    <div class="block loading">
         <h3>Past Events</h3>
         <ul>
             {{#each events}}

@@ -1,6 +1,6 @@
 /* CSS declarations go here */
-html,body{
-    min-height: 100%;
+html{
+height: 100%;
 }
 html {
     background: #f5f5f5;
@@ -12,6 +12,7 @@ html {
     -webkit-text-size-adjust: 100%;
 }
 body{
+    min-height: 100%;
 	margin:0;
 	padding: 0;
 	background: #eee;
@@ -25,6 +26,7 @@ body{
     background: -ms-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 20%,rgba(255,255,255,0.78) 44%,rgba(0,0,0,0.26) 100%); /* IE10+ */
     background: radial-gradient(ellipse at center,  rgba(255,255,255,1) 20%,rgba(255,255,255,0.78) 44%,rgba(0,0,0,0.26) 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#42000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
 }
 a{
     font-weight: 400;
@@ -41,7 +43,7 @@ ul{
 header,
 section,
 footer{
-	padding:4px 16px;
+	padding:4px 14px;
 }
 header{
 	color:#fff;
@@ -56,7 +58,7 @@ h1{
 }
 .logo{
     display: inline-block;
-    margin:0 8px 0 -2px;
+    margin:0 8px 0 -4px;
     width:23px;
     height:23px;
     border-radius: 23px;
@@ -89,6 +91,11 @@ h1{
 	min-width: 220px;
     position: relative;
     border-right:solid 2px gold;
+    opacity: 1;
+    transition: opacity ease 0.4s;
+}
+.loading{
+    opacity:0;
 }
 #previous-events .block{
     border-right-color: #ccc;
