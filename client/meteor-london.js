@@ -26,8 +26,18 @@ Template.previousMeetup.dateFormat = function(ms){
 	return moment(ms).format('MMMM Do YYYY');
 };
 
-Template.upcomingMeetup.rendered = onLoad
-Template.previousMeetup.rendered = onLoad
+Template.photos.photos = function(){
+  return Photos.find({}, { sort: [['created', 'desc']]}).fetch();
+};
+
+Template.members.members = function(){
+  return Members.find({}, { sort: [['joined', 'desc']]}).fetch();
+};
+
+Template.upcomingMeetup.rendered = onLoad;
+Template.previousMeetup.rendered = onLoad;
+Template.photos.rendered = onLoad;
+Template.members.rendered = onLoad;
 
 function onLoad(){
     var loadings = $(this.find('.loading'));

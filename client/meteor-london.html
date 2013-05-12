@@ -12,12 +12,13 @@
 	</section>
 	<section id="previous-events">
 		{{> previousMeetup }}
+	</section>	
+	<section>
+		{{> members}}
 	</section>
 	<footer>
-		<p>
-            Made by <a href="https://twitter.com/_alanshaw">@_alanshaw</a> &amp; <a href="https://twitter.com/olizilla">@olizilla</a> with
-            <a href="http://meteor.com">Meteor</a>, <a href="#">accounts-meetup</a> and the <a href="http://api.meetup.com">meetup api</a>.
-		</p>
+		<a id="gh" href="https://github.com/olizilla/meteor-london" title="GitHub"><img src="GitHub-Mark-32px.png" alt="GitHub logo"/></a>
+		<a class='logo' href="http://meteor.com"></a>
 	</footer>
 </body>
 
@@ -31,24 +32,44 @@
 			<span>- {{yes_rsvp_count}} attendee{{#if yes_rsvp_count}}s{{/if}}</span>
 		</p>
 		<div class="description">{{{description}}}</div>
-        <div class="countdown">{{fromNowFormat time}}</div>
-        <a class="meetup" href={{event_url}}></a>
+		<div class="countdown">{{fromNowFormat time}}</div>
+		<a class="meetup" href={{event_url}}></a>
 	</div>
 	{{/each}}
 </template>
 
 <template name="previousMeetup">
-    {{#if events.length}}
-    <div class="block loading">
-        <h3>Past Events</h3>
-        <ul>
-            {{#each events}}
-            <li>
-                <div class="time">{{dateFormat time}} - {{yes_rsvp_count}} attended</div>
-                <a class="name" href="{{event_url}}">{{name}}</a>
-            </li>
-            {{/each}}
-        </ul>
-    </div>
-    {{/if}}
+	{{#if events.length}}
+	<div class="block loading">
+		<h3>Past Events</h3>
+		{{> photos}}
+		<ul>
+			{{#each events}}
+			<li>
+				<div class="time">{{dateFormat time}} - {{yes_rsvp_count}} attended</div>
+				<a class="name" href="{{event_url}}">{{name}}</a>
+			</li>
+			{{/each}}
+		</ul>
+	</div>
+	{{/if}}
+</template>
+
+<template name="photos">
+	{{#each photos}}
+	<a class="photo" href="{{highres_link}}"><img src="{{thumb_link}}" alt="" title="{{member.name}}"></a>
+	{{/each}}
+</template>
+
+<template name="members">
+	{{#if members.length}}
+	<div class="block loading">
+		<h3>Meteorites</h3>
+		{{#each members}}
+		<a title="{{name}}" class="photo member" href="{{#if other_services.twitter.identifier}}https://twitter.com/{{other_services.twitter.identifier}}{{else}}{{link}}{{/if}}">
+			{{#if photo.thumb_link}}<img src="{{photo.thumb_link}}">{{/if}}
+		</a>
+		{{/each}}
+	</div>
+	{{/if}}
 </template>
