@@ -38,6 +38,7 @@
 </template>
 
 <template name="previousMeetup">
+    {{#if events.length}}
     <div class="block loading">
         <h3>Past Events</h3>
         <ul>
@@ -49,4 +50,5 @@
             {{/each}}
         </ul>
     </div>
+    {{/if}}
 </template>
