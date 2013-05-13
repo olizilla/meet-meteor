@@ -26,6 +26,10 @@ Template.previousMeetup.dateFormat = function(ms){
 	return moment(ms).format('MMMM Do YYYY');
 };
 
+Template.previousMeetup.toFixed = function(number){
+  return parseFloat(number).toFixed(1); // rounded to 1 decimal place.
+};
+
 Template.photos.photos = function(){
   return Photos.find({}, { sort: [['created', 'desc']]}).fetch();
 };

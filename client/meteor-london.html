@@ -41,12 +41,12 @@
 <template name="previousMeetup">
 	{{#if events.length}}
 	<div class="block loading">
-		<h3>Past Events</h3>
+		<h3>{{events.length}} Past Events</h3>
 		{{> photos}}
 		<ul>
 			{{#each events}}
 			<li>
-				<div class="time">{{dateFormat time}} - {{yes_rsvp_count}} attended</div>
+				<div class="time">{{dateFormat time}} - {{yes_rsvp_count}} attended {{#if rating.count}}-  {{toFixed rating.average}} stars{{/if}}</div>
 				<a class="name" href="{{event_url}}">{{name}}</a>
 			</li>
 			{{/each}}
@@ -64,7 +64,7 @@
 <template name="members">
 	{{#if members.length}}
 	<div class="block loading">
-		<h3>Meteorites</h3>
+		<h3>{{members.length}} Meteorites</h3>
 		{{#each members}}
 		<a title="{{name}}" class="photo member" href="{{#if other_services.twitter.identifier}}https://twitter.com/{{other_services.twitter.identifier}}{{else}}{{link}}{{/if}}">
 			{{#if photo.thumb_link}}<img src="{{photo.thumb_link}}">{{/if}}

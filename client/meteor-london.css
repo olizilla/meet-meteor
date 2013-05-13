@@ -152,6 +152,11 @@ a.name {
     overflow: hidden;
     vertical-align: top;
     margin: 5px;
+    opacity: 0.8;
+    transition: opacity 0.25s linear;
+}
+.photo:hover{
+    opacity: 1;
 }
 .member img{
     max-width: 50px;
