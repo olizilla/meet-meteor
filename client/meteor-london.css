@@ -181,6 +181,15 @@ a.name {
 #gh:hover {
     opacity: 1;
 }
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+.x.axis path {
+  display: none;
+}
 .line {
     fill:none;
     stroke:steelblue;
