@@ -10,28 +10,24 @@ var y = d3.scale.linear().range([height, 0]);
 var xAxis = d3.svg.axis()
     .scale(x)
     .orient("bottom")
-    .ticks(d3.time.months, 1)
+    .ticks(d3.time.months, 1);
 
 var yAxis = d3.svg.axis()
     .scale(y)
-    .orient("left")
+    .orient("left");
 
 var line = d3.svg.line()
     .x(function(d) { return x(d.date); })
     .y(function(d) { return y(d.count); });
 
+membersGraph = function(){
 
-svg = null;
-Meteor.startup(function(){
-  svg = d3.select("#members-graph").append("svg")
+  var svg = d3.select("#members-graph svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-});
-
-membersGraph = function(){
 
   var members = Members.find({}, { sort: [['joined', 'asc']]} ).fetch();
 
@@ -43,7 +39,7 @@ membersGraph = function(){
     };
   });
 
-  x.domain(d3.extent(data, function(d) { return d.date; }));
+  x.domain([d3.min(data, function(d) { return d.date; }), Date.now()]);
   y.domain(d3.extent(data, function(d) { return d.count; }));
 
   svg.append("path")

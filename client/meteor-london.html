@@ -15,7 +15,6 @@
 	</section>	
 	<section>
 		{{> members}}
-		<div id="members-graph"></div>
 	</section>
 	<footer>
 		<a id="gh" href="https://github.com/olizilla/meteor-london" title="GitHub"><img src="GitHub-Mark-32px.png" alt="GitHub logo"/></a>
@@ -66,6 +65,9 @@
 	{{#if members.length}}
 	<div class="block loading">
 		<h3>{{members.length}} Meteorites</h3>
+		<div id="members-graph">
+			<svg></svg>
+		</div>
 		{{#each members}}
 		<a title="{{name}}" class="photo member" href="{{#if other_services.twitter.identifier}}https://twitter.com/{{other_services.twitter.identifier}}{{else}}{{link}}{{/if}}">
 			{{#if photo.thumb_link}}<img src="{{photo.thumb_link}}">{{/if}}

@@ -192,6 +192,6 @@ a.name {
 }
 .line {
     fill:none;
-    stroke:steelblue;
-    stroke-width:2px;
+    stroke:black;
+    stroke-width:3px;
 }
