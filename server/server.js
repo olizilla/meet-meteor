@@ -101,4 +101,6 @@ Meteor.startup(function(){
     Meteor.setInterval(syncEvents, 1000 * 60);
 
     Meteor.setInterval(syncPhotos, 1000 * 60);
+    
+    Meteor.setInterval(syncMembers, 1000 * 60);
 });
