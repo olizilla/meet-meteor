@@ -181,3 +181,8 @@ a.name {
 #gh:hover {
     opacity: 1;
 }
+.line {
+    fill:none;
+    stroke:steelblue;
+    stroke-width:2px;
+}

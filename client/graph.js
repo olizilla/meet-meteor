@@ -2,11 +2,9 @@ var margin = {top: 20, right: 20, bottom: 30, left: 50},
       width = 960 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom;
 
-var x = d3.time.scale()
-    .range([0, width]);
+var x = d3.time.scale().range([0, width]);
 
-var y = d3.scale.linear()
-    .range([height, 0]);
+var y = d3.scale.linear().range([height, 0]);
 
 var xAxis = d3.svg.axis()
     .scale(x)
@@ -42,12 +40,9 @@ membersGraph = function(){
       count: i + 1
     };
   });
-  console.log(data);
 
   x.domain(d3.extent(data, function(d) { return d.date; }));
   y.domain(d3.extent(data, function(d) { return d.count; }));
-
-  // var graph = svg.selectAll('.line').data(data, function(d){return d.id});
 
   svg.append("path")
       .datum(data)
