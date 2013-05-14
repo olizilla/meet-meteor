@@ -52,8 +52,8 @@ Template.members.rendered = function(){
     Meteor.defer(function(){
         loadings.removeClass('loading');
     });
-  membersGraph();
-}
+  membersGraph(initSvg());
+};
 
 function onLoad(){
     var loadings = $(this.find('.loading'));

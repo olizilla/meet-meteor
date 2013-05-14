@@ -92,11 +92,11 @@ Meteor.startup(function(){
     
     // TODO: sanity check we have a key and group_id
 
-    syncEvents();
+    // syncEvents();
 
-    syncPhotos();
+    // syncPhotos();
 
-    syncMembers();
+    // syncMembers();
 
     Meteor.setInterval(syncEvents, 1000 * 60);
 

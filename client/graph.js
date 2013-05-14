@@ -1,33 +1,47 @@
-var margin = {top: 20, right: 20, bottom: 30, left: 50},
-      width = 960 - margin.left - margin.right,
-      height = 500 - margin.top - margin.bottom;
 
-var x = d3.time.scale().range([0, width])
-x.tickFormat('%B');
+initSvg = function(){
+  var $svg = $('svg');
+  var $svgParent = $svg.parent();
+  
+  var width = $svgParent.width();
+  var height = ($svgParent.width() / 2).toFixed(0);
 
-var y = d3.scale.linear().range([height, 0]);
+  var dims = {width: width, height: height};
+  $svg.attr(dims);
 
-var xAxis = d3.svg.axis()
+  return dims;
+}
+
+membersGraph = function(available){
+
+  var svg = d3.select("#members-graph svg");
+
+  var margin = {top: 20, right: 20, bottom: 50, left: 40};
+
+  var graph = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  
+  var width = available.width - margin.left - margin.right;
+  
+  var height = available.height - margin.top - margin.bottom;
+  console.log('Graph size:', width, height);
+
+  var x = d3.time.scale().range([0, width]);
+  x.tickFormat('%B');
+
+  var y = d3.scale.linear().range([height, 0]);
+
+  var xAxis = d3.svg.axis()
     .scale(x)
     .orient("bottom")
     .ticks(d3.time.months, 1);
 
-var yAxis = d3.svg.axis()
+  var yAxis = d3.svg.axis()
     .scale(y)
     .orient("left");
 
-var line = d3.svg.line()
+  var line = d3.svg.line()
     .x(function(d) { return x(d.date); })
     .y(function(d) { return y(d.count); });
-
-membersGraph = function(){
-
-  var svg = d3.select("#members-graph svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
 
   var members = Members.find({}, { sort: [['joined', 'asc']]} ).fetch();
 
@@ -42,17 +56,17 @@ membersGraph = function(){
   x.domain([d3.min(data, function(d) { return d.date; }), Date.now()]);
   y.domain(d3.extent(data, function(d) { return d.count; }));
 
-  svg.append("path")
+  graph.append("path")
       .datum(data)
       .attr("class", "line")
       .attr("d", line);
 
-  svg.append("g")
+  graph.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis);
 
-  svg.append("g")
+  graph.append("g")
       .attr("class", "y axis")
       .call(yAxis)
     .append("text")
