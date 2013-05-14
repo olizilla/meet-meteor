@@ -1,6 +1,13 @@
 Meteor.startup(function(){
   console.log('Meteor London is alive.');
+  Deps.autorun(membersGraph);
+
+  // Meteor.subscribe('members', function(){
+  //   membersGraph();
+  // });
 });
+
+
 
 Template.upcomingMeetup.events = function(){
   return Events.find({time: { $gt: Date.now() }}, { sort: [['time', 'desc']]}).fetch();
