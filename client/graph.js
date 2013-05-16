@@ -10,7 +10,7 @@ initSvg = function(){
   $svg.attr(dims);
 
   return dims;
-}
+};
 
 membersGraph = function(available){
 
@@ -75,5 +75,34 @@ membersGraph = function(available){
       .attr("dy", ".71em")
       .style("text-anchor", "end")
       .text("Members");
+
+  var events = Events.find().fetch();
+
+  var eventsData = events.map(function(d){
+    var count = 0;
+
+    members.forEach(function(m){
+      if(m.joined < d.time){
+        count = count + 1;
+      }
+    });
+
+    return {
+      id: d.id,
+      date: d.time,
+      count: count,
+      name: d.name
+    };
+  });
+
+  var eventsSelection = graph.selectAll('.event').data(eventsData);
+
+  eventsSelection.enter()
+    .append('circle')
+    .attr('class', 'event')
+    .attr('title', function(d){return d.name })
+    .attr('r', 4)
+    .attr('cx', function(d){ console.log('x', x(d.date)); return x(d.date) } )
+    .attr('cy', function(d){ console.log('y', y(d.count)); return y(d.count) } );
 
 };

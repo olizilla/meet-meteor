@@ -188,10 +188,15 @@ a.name {
   shape-rendering: crispEdges;
 }
 .x.axis path {
-  display: none;
+  /*display: none;*/
 }
 .line {
     fill:none;
-    stroke:black;
+    stroke:#333;
+    stroke-width:1px;
+}
+svg .event{
+    stroke: #333;
     stroke-width:3px;
+    fill:ghostwhite;
 }
