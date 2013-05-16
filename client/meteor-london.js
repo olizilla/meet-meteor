@@ -1,6 +1,12 @@
 Meteor.startup(function(){
   console.log('Meteor London is alive.');
+
+  // Meteor.subscribe('members', function(){
+  //   membersGraph();
+  // });
 });
+
+
 
 Template.upcomingMeetup.events = function(){
   return Events.find({time: { $gt: Date.now() }}, { sort: [['time', 'desc']]}).fetch();
@@ -41,7 +47,13 @@ Template.members.members = function(){
 Template.upcomingMeetup.rendered = onLoad;
 Template.previousMeetup.rendered = onLoad;
 Template.photos.rendered = onLoad;
-Template.members.rendered = onLoad;
+Template.members.rendered = function(){
+  var loadings = $(this.find('.loading'));
+    Meteor.defer(function(){
+        loadings.removeClass('loading');
+    });
+  membersGraph(initSvg());
+};
 
 function onLoad(){
     var loadings = $(this.find('.loading'));

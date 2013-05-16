@@ -65,6 +65,9 @@
 	{{#if members.length}}
 	<div class="block loading">
 		<h3>{{members.length}} Meteorites</h3>
+		<div id="members-graph">
+			<svg></svg>
+		</div>
 		{{#each members}}
 		<a title="{{name}}" class="photo member" href="{{#if other_services.twitter.identifier}}https://twitter.com/{{other_services.twitter.identifier}}{{else}}{{link}}{{/if}}">
 			{{#if photo.thumb_link}}<img src="{{photo.thumb_link}}">{{/if}}
