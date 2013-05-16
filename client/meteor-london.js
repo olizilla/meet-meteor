@@ -28,6 +28,24 @@ Template.upcomingMeetup.dateTimeFormat = function(ms){
 	return moment(ms).format('MMMM Do YYYY, h:mm a');
 };
 
+Template.upcomingMeetup.createMap = function(venue) {
+	
+	setTimeout(function() {
+		
+		if(!venue) {
+			return;
+		}
+		
+		var latlon = [venue.lat, venue.lon];
+		var map = L.map('tmp-map').setView(latlon, 13);
+		
+		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
+		
+		L.marker(latlon).addTo(map);
+		
+	}, 1000);
+};
+
 Template.previousMeetup.dateFormat = function(ms){
 	return moment(ms).format('MMMM Do YYYY');
 };

@@ -1,6 +1,8 @@
 <head>
 	<title>Meteor london</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" />
+	<script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
 </head>
 
 <body>
@@ -31,6 +33,8 @@
 			<span>- {{#if venue}}at: {{venue.name}}{{else}}Venue TBC{{/if}}</span>
 			<span>- {{yes_rsvp_count}} attendee{{#if yes_rsvp_count}}s{{/if}}</span>
 		</p>
+		<div id="tmp-map" class="map"></div>
+		{{createMap venue}}
 		<div class="description">{{{description}}}</div>
 		<div class="countdown">{{fromNowFormat time}}</div>
 		<a class="meetup" href={{event_url}}></a>

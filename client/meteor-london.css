@@ -200,3 +200,7 @@ svg .event{
     stroke-width:3px;
     fill:ghostwhite;
 }
+.map {
+	width: 100%;
+	height: 100px;
+}
