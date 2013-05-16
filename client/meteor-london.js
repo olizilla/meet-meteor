@@ -37,11 +37,24 @@ Template.upcomingMeetup.createMap = function(venue) {
 		}
 		
 		var latlon = [venue.lat, venue.lon];
-		var map = L.map('tmp-map').setView(latlon, 13);
+		var map = L.map('tmp-map', {
+      zoomControl:false,
+      attributionControl:false
+    }).setView(latlon, 16);
 		
-		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
+		L.tileLayer('http://{s}tile.stamen.com/toner/{z}/{x}/{y}.png', {
+      "minZoom":      0,
+      "maxZoom":      20,
+      "subdomains":   ["", "a.", "b.", "c.", "d."],
+      "scheme":       "xyz"
+    }).addTo(map);
 		
-		L.marker(latlon).addTo(map);
+		var marker = L.marker(latlon, {
+      title: venue.name,
+      riseOnHover:true
+    });
+    
+    marker.addTo(map);
 		
 	}, 1000);
 };
