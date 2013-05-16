@@ -181,6 +181,11 @@ a.name {
 #gh:hover {
     opacity: 1;
 }
+#members-graph{
+    position: absolute;
+    top:0px;
+    left:10.5em;
+}
 .axis path,
 .axis line {
   fill: none;
@@ -193,10 +198,10 @@ a.name {
 .line {
     fill:none;
     stroke:#333;
-    stroke-width:1px;
+    stroke-width:0.5px;
 }
 svg .event{
     stroke: #333;
-    stroke-width:3px;
-    fill:ghostwhite;
+    stroke-width:1px;
+    fill:black;
 }

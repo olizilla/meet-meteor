@@ -3,8 +3,8 @@ initSvg = function(){
   var $svg = $('svg');
   var $svgParent = $svg.parent();
   
-  var width = $svgParent.width();
-  var height = ($svgParent.width() / 2).toFixed(0);
+  var width = 120; //$svgParent.width();
+  var height = 50;
 
   var dims = {width: width, height: height};
   $svg.attr(dims);
@@ -16,7 +16,7 @@ membersGraph = function(available){
 
   var svg = d3.select("#members-graph svg");
 
-  var margin = {top: 20, right: 20, bottom: 50, left: 40};
+  var margin = {top: 10, right: 0, bottom: 0, left: 0};
 
   var graph = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
   
@@ -61,21 +61,6 @@ membersGraph = function(available){
       .attr("class", "line")
       .attr("d", line);
 
-  graph.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(xAxis);
-
-  graph.append("g")
-      .attr("class", "y axis")
-      .call(yAxis)
-    .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", ".71em")
-      .style("text-anchor", "end")
-      .text("Members");
-
   var events = Events.find().fetch();
 
   var eventsData = events.map(function(d){
@@ -101,7 +86,7 @@ membersGraph = function(available){
     .append('circle')
     .attr('class', 'event')
     .attr('title', function(d){return d.name })
-    .attr('r', 4)
+    .attr('r', 2)
     .attr('cx', function(d){ console.log('x', x(d.date)); return x(d.date) } )
     .attr('cy', function(d){ console.log('y', y(d.count)); return y(d.count) } );
 
