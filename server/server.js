@@ -102,7 +102,9 @@ Meteor.startup(function(){
     // TODO: sanity check we have a key and group_id
     console.log('\n#### Intiating Launch Sequence ####\n');
 
-    syncGroups();
+    console.log('Contacting api.meetup.com in 60s...\n');
+
+    Meteor.setInterval(syncGroups, 1000 * 60);
 
     Meteor.setInterval(syncEvents, 1000 * 60);
 
