@@ -7,6 +7,10 @@ var meetup = {
 
     group_id: Meteor.settings.group_id,
 
+    groups: function group(opts, cb){
+        this.get(this.api + '/2/groups', opts, cb);
+    },
+
     events: function events(opts, cb){
         this.get(this.api + '/2/events', opts, cb);
     },
@@ -73,6 +77,11 @@ function sync(method, opts, collection, idField){
     });
 }
 
+// get /groups data from api.meetup.com; add or update the Groups collection.
+function syncGroups(){
+    sync('groups', { fields: 'sponsors,short_link', omit:'topics' }, Groups, 'id');
+}
+
 // get /events data from api.meetup.com; add or update the Events collection.
 function syncEvents(){
     sync('events', { status: 'past,upcoming,cancelled' }, Events, 'id');
@@ -84,19 +93,16 @@ function syncPhotos(){
 }
 
 function syncMembers(){
-    sync('members', { omit: 'topics', page: 300 }, Members, 'id'); // TODO: handle paging...
+    sync('members', { omit: 'topics', page: 400 }, Members, 'id'); // TODO: handle paging...
 }
 
 // It begins. Get meetup data and push it into local collections. Rinse. Repeat.
 Meteor.startup(function(){
     
     // TODO: sanity check we have a key and group_id
+    console.log('\n#### Intiating Launch Sequence ####\n');
 
-    // syncEvents();
-
-    // syncPhotos();
-
-    // syncMembers();
+    syncGroups();
 
     Meteor.setInterval(syncEvents, 1000 * 60);
 
