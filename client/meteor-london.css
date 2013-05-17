@@ -158,6 +158,13 @@ a.name {
 .photo:hover{
     opacity: 1;
 }
+.sponsor .photo{
+    width: auto;
+    height:auto;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+}
 .member img{
     max-width: 50px;
 }

@@ -53,7 +53,7 @@ Template.upcomingMeetup.createMap = function(venue) {
       title: venue.name,
       riseOnHover:true
     });
-    
+
     marker.addTo(map);
 		
 	}, 1000);
@@ -75,9 +75,14 @@ Template.members.members = function(){
   return Members.find({}, { sort: [['joined', 'desc']]}).fetch();
 };
 
+Template.sponsors.sponsors = function(){
+  return Groups.findOne() ? Groups.findOne().sponsors : null;
+};
+
 Template.upcomingMeetup.rendered = onLoad;
 Template.previousMeetup.rendered = onLoad;
 Template.photos.rendered = onLoad;
+Template.sponsors.rendered = onLoad;
 Template.members.rendered = function(){
   var loadings = $(this.find('.loading'));
     Meteor.defer(function(){

@@ -12,6 +12,9 @@
 	<section id="upcoming-events">
 		{{> upcomingMeetup }}
 	</section>
+	<section id="sponsors">
+		{{> sponsors }}
+	</section>
 	<section id="previous-events">
 		{{> previousMeetup }}
 	</section>	
@@ -40,6 +43,19 @@
 		<a class="meetup" href={{event_url}}></a>
 	</div>
 	{{/each}}
+</template>
+
+<template name="sponsors">
+	{{#if sponsors.length}}
+	<div class="block loading">
+		<h3>Sponsored by</h3>
+		{{#each sponsors}}
+		<div class="sponsor">
+			<a class="photo" href="{{url}}"><img src="{{image_url}}" alt="" title="{{details}}"></a>
+		</div>
+		{{/each}}
+	</div>
+	{{/if}}
 </template>
 
 <template name="previousMeetup">
