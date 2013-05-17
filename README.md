@@ -13,7 +13,8 @@ Getting started
 - Create a settings.json file for your super secret meetup api key like so:
 ```json
 {
-    "meetupApiKey": "Your secrets go here"
+    "meetupApiKey": "Your secrets go here",
+    "group_id": "6576382"
 }
 ```
 
@@ -21,14 +22,14 @@ Getting started
 ```shell
 meteor --settings settings.json
 ```
+or use the handy `run.sh`
 
 - If all is well, the app will pull the latest event data for Meteor London from Meetup.com, and render it for you at http://localhost:3000
 
 TODO
 ----
-Refactor server logic:
-- Get upcoming events info
-- Get group info
-- Get additional info, photos, ratings for past events. `https://api.meetup.com/2/photos?&sign=true&event_id=112837102&page=20`
-http://www.meetup.com/meetup_api/console/?path=/2/photos
-in that order.
+- Get sponsor info.
+- Get group info from meetup, so this can be re-used by other Meteors.
+- Add collection for demo'd things, so each past event can have a list of urls to things shown.
+- Allow RSVP & Checkins, via accounts-meetup auth.
+
