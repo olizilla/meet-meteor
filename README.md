@@ -13,6 +13,7 @@ Getting started
 - Clone the code, install the Meteor.
 - Create an meetup api key via: http://www.meetup.com/meetup_api/key/
 - Create a [settings.json](https://github.com/olizilla/meteor-london/blob/master/example-settings.json) file for your super secret meetup api key like so:
+
 ```json
 {
     "meetupApiKey": "get your key from http://www.meetup.com/meetup_api/key/",
@@ -24,6 +25,7 @@ Getting started
     }
 }
 ```
+
 - Launch a meteor, passing it the path to the settings.json
 ```shell
 meteor --settings settings.json
