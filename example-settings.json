@@ -1,0 +1,9 @@
+{
+	"meetupApiKey": "get your key from http://www.meetup.com/meetup_api/key/",
+	"public": {
+		"group":{
+			"id":"6576382", 
+			"name": "Meteor London"
+		}
+	}
+}
