@@ -27,9 +27,11 @@ Getting started
 ```
 
 - Launch a meteor, passing it the path to the settings.json
+
 ```shell
 meteor --settings settings.json
 ```
+
 or use the handy `run.sh`
 - If all is well, the app will pull the latest event data for Meteor London from Meetup.com, and render it for you at http://localhost:3000
 
