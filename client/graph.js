@@ -4,11 +4,9 @@ membersGraph = function(available){
 
   var members = Members.find({}, { sort: [['joined', 'asc']]} ).fetch();
 
-  if (members.length > 1) { 
+  if (members.length < 1) { 
     return; // Abort!
-  }
-  
-  console.log('Updating membership graph');
+  }  
 
   var data = members.map(function(member, i){
     return {
@@ -19,6 +17,8 @@ membersGraph = function(available){
   });
 
   var svg = d3.select("#members-graph svg");
+
+  console.log('Updating membership graph'/*, svg, members*/);
 
   var margin = {top: 10, right: 0, bottom: 0, left: 0};
 
