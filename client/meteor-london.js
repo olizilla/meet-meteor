@@ -1,5 +1,13 @@
 Meteor.startup(function(){
-	console.log('Meteor London is alive.');
+
+	// Set group name from settings rather than waiting for a subscription to complete
+	var groupName = Meteor.settings.public.group.name;
+	
+	console.log(groupName + ' is alive.');
+	
+	document.title = groupName;
+	
+	document.getElementById('group-name').innerHTML = groupName;
 });
 
 // Prioritsed subscribtion... Get the importantThings first.

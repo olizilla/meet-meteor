@@ -14,10 +14,6 @@ var meetup = {
 
     api: 'https://api.meetup.com',
 
-    key: Meteor.settings.meetupApiKey,
-
-    group_id: Meteor.settings.group_id,
-
     groups: function group(opts, cb){
         this.get(this.api + '/2/groups', opts, cb);
     },
@@ -44,9 +40,9 @@ var meetup = {
 
         opts.sign = true;
 
-        opts.key = this.key;
+        opts.key = Meteor.settings.meetupApiKey,
 
-        opts.group_id = this.group_id;
+        opts.group_id = Meteor.settings.public.group.id,
 
         Meteor.http.get(url, { params: opts }, function(error, response){
 
@@ -109,9 +105,17 @@ function syncMembers(){
 
 // It begins. Get meetup data and push it into local collections. Rinse. Repeat.
 Meteor.startup(function(){
-    
-    // TODO: sanity check we have a key and group_id
+
     console.log('\n#### Intiating Launch Sequence ####\n');
+
+    if (!Meteor.settings || !Meteor.settings.meetupApiKey || !Meteor.settings.public){
+        console.error('ABORT! ABORT!');
+        console.error('The settings data is invalid. Please pass a settings file on startup.');
+        console.error('\n  meteor --settings settings.json\n' );
+        console.error('More info here: https://github.com/olizilla/meteor-london/blob/master/README.md');
+
+        return;
+    }
 
     console.log('Contacting api.meetup.com in 60s...\n');
 
