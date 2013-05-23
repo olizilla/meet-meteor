@@ -1,18 +1,22 @@
 
-initSvg = function(){
-  var $svg = $('svg');
-  var $svgParent = $svg.parent();
-  
-  var width = 120; //$svgParent.width();
-  var height = 50;
-
-  var dims = {width: width, height: height};
-  $svg.attr(dims);
-
-  return dims;
-};
-
+// Create a sparkline of membership numbers over time
 membersGraph = function(available){
+
+  var members = Members.find({}, { sort: [['joined', 'asc']]} ).fetch();
+
+  if (members.length > 1) { 
+    return; // Abort!
+  }
+  
+  console.log('Updating membership graph');
+
+  var data = members.map(function(member, i){
+    return {
+      id: member.id,
+      date: member.joined,
+      count: i + 1
+    };
+  });
 
   var svg = d3.select("#members-graph svg");
 
@@ -23,7 +27,6 @@ membersGraph = function(available){
   var width = available.width - margin.left - margin.right;
   
   var height = available.height - margin.top - margin.bottom;
-  console.log('Graph size:', width, height);
 
   var x = d3.time.scale().range([0, width]);
   x.tickFormat('%B');
@@ -42,16 +45,6 @@ membersGraph = function(available){
   var line = d3.svg.line()
     .x(function(d) { return x(d.date); })
     .y(function(d) { return y(d.count); });
-
-  var members = Members.find({}, { sort: [['joined', 'asc']]} ).fetch();
-
-  var data = members.map(function(member, i){
-    return {
-      id: member.id,
-      date: member.joined,
-      count: i + 1
-    };
-  });
 
   x.domain([d3.min(data, function(d) { return d.date; }), Date.now()]);
   y.domain(d3.extent(data, function(d) { return d.count; }));
@@ -85,9 +78,9 @@ membersGraph = function(available){
   eventsSelection.enter()
     .append('circle')
     .attr('class', 'event')
-    .attr('title', function(d){return d.name })
     .attr('r', 2)
-    .attr('cx', function(d){ console.log('x', x(d.date)); return x(d.date) } )
-    .attr('cy', function(d){ console.log('y', y(d.count)); return y(d.count) } );
-
+    .attr('cx', function(d){ return x(d.date); } )
+    .attr('cy', function(d){ return y(d.count); } )
+    .append('title')
+    .text(function(d){return d.count + ' @ ' + d.name });
 };

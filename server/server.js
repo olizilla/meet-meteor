@@ -1,3 +1,14 @@
+
+// Client subscribes to this first. 
+Meteor.publish("importantThings", function(){
+    return [Groups.find({}), Events.find({time: { $gte: Date.now() -  86400000 }})];
+});
+
+// Once importantThings are sync'd then subscribe to the rest
+Meteor.publish("things", function(){
+    return [Events.find({}), Photos.find({}), Members.find({})];
+});
+
 // Encapsulate the meetup api gubbins.
 var meetup = {
 
