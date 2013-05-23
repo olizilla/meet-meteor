@@ -17,6 +17,10 @@ membersGraph = function(available){
   });
 
   var svg = d3.select("#members-graph svg");
+  svg.attr({
+    width:available.width,
+    height:available.height
+  });
 
   console.log('Updating membership graph'/*, svg, members*/);
 
