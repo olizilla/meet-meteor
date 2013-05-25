@@ -75,23 +75,37 @@ function updateOrInsert(collection, doc, idField){
 
 // Get data from meetup and insert or update a local collection with the data
 function sync(method, opts, collection, idField){
+    idField = idField || 'id';
+
     meetup[method](opts, function(err, resp){
         if(err) return;
-        resp.data.results.forEach(function(doc){
+
+        var results = resp.data.results;
+        var meta = resp.data.meta;
+
+        results.forEach(function(doc){
             console.log('Upserting ' + method, doc.name ? doc.name : doc[idField] /*, doc */);
             updateOrInsert(collection, doc, idField);
         });
+
+        // Are there more pages of data to get?
+        if (meta.next){
+            opts.offset = opts.offset || 0;
+            opts.offset++;
+            console.log('Syncing next page', opts.offset);
+            sync(method, opts, collection, idField);
+        }
     });
 }
 
 // get /groups data from api.meetup.com; add or update the Groups collection.
 function syncGroups(){
-    sync('groups', { fields: 'sponsors,short_link', omit:'topics' }, Groups, 'id');
+    sync('groups', { fields: 'sponsors,short_link', omit:'topics' }, Groups);
 }
 
 // get /events data from api.meetup.com; add or update the Events collection.
 function syncEvents(){
-    sync('events', { status: 'past,upcoming,cancelled' }, Events, 'id');
+    sync('events', { status: 'past,upcoming,cancelled' }, Events);
 }
 
 // get /photos data from api.meetup.com; add or update the Photos collection.
@@ -100,7 +114,7 @@ function syncPhotos(){
 }
 
 function syncMembers(){
-    sync('members', { omit: 'topics', page: 400 }, Members, 'id'); // TODO: handle paging...
+    sync('members', { omit: 'topics' }, Members); // TODO: handle paging...
 }
 
 // It begins. Get meetup data and push it into local collections. Rinse. Repeat.
@@ -117,7 +131,7 @@ Meteor.startup(function(){
         return;
     }
 
-    console.log('Contacting api.meetup.com in 60s...\n');
+    console.log('Contacting api.meetup.com in 60s...\n');    
 
     Meteor.setInterval(syncGroups, 1000 * 60);
 
