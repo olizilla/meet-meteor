@@ -1,18 +1,13 @@
-Meteor London
-=============
+Meet Meteor
+===========
 
 **The meatier meetup site for meteor meetups**
 
 An exercise in pulling data from http://api.meetup.com via serverside Meteor.http requests, to terraform a better life.
 
+Forked from: https://github.com/olizilla/meteor-london
+
 Feel free to re-use it for your meetup, hack it or otherwise noodle it to your hearts content, it's [free as in Hugs](http://blog.izs.me/post/48281002063/free-as-in-hugs-licence).
-
-To use it for another meetup all you need to do is change the settings.json to include your specific group id and name.
-
-You can find your group id via the meetup api console or searching your meetup page for:
-```html
-<input type="hidden" name="chapterId" value="your group number here">
-```
 
 Getting started
 ---------------
@@ -25,10 +20,11 @@ Getting started
 {
     "meetupApiKey": "get your key from http://www.meetup.com/meetup_api/key/",
     "public": {
-    	"group":{
-    		"id":"6576382", 
-    		"name": "Meteor London"
-    	}
+    	"groups":[
+            "Meteor-London",
+            "Meteor-Paris",
+            "Meteor-Etc",
+        ]
     }
 }
 ```
@@ -40,7 +36,7 @@ meteor --settings settings.json
 ```
 
 or use the handy `run.sh`
-- If all is well, the app will pull the latest event data for Meteor London from Meetup.com, and render it for you at http://localhost:3000
+- If all is well, the app will pull the latest event data for **all** the Meteor meetups on meetup.com, and render it for you at http://localhost:3000
 
 An aside for the interested reader
 ----------------------------------
@@ -48,7 +44,10 @@ The reason for passing in your meetup api key is to keep it out of the source co
 Your meetup api key is supposed to be secret, so we don't go passing it to the client.
 `server.js` uses the api key to contact api.meetup.com and sync it's interesting data to local Meteor collections.
 
-I've added a prioritised subscription two-step dance so clients on slow connections get the most important data first.
+I've added
+
+- Http request queue to throttle usage of api.meetup.com to avoid hammering the service and getting blocked.
+- Prioritised subscription two-step dance so clients on slow connections get the most important data first.
 Ideally we'd set the main header from the group data, but as an ux optimisation we set it from the settings, so that it appears on page load rather than after the first data subscription.
 
 The rest is experiment. Feel free to add some of your own, submit pull requests or add issues.
@@ -58,4 +57,3 @@ TODO
 - Add collection for demo'd things, so each past event can have a list of urls to things shown.
 - Allow RSVP & Checkins, via accounts-meetup auth.
 - MOAR GRAPHS.
-
