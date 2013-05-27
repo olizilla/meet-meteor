@@ -1,9 +1,23 @@
 {
 	"meetupApiKey": "get your key from http://www.meetup.com/meetup_api/key/",
 	"public": {
-		"group":{
-			"id":"6576382", 
-			"name": "Meteor London"
-		}
+		"groups":[
+			"Meteor-SFBay",
+			"Meteor-NY",
+			"Meteor-London",
+			"Meteor-Paris",
+			"Meteor-Boston",
+			"Meteor-Tel-Aviv",
+			"Meteor-Vancouver",
+			"Meteor-Haag",
+			"Meteor-Chicago",
+			"Meteor-Minneapolis",
+			"Meteor-LA",
+			"Meteor-Toronto",
+			"Meteor-Stockholm",
+			"Meteor-Zurich",
+			"Meteor-Austin",
+			"Meteor-Melbourne"
+		]
 	}
 }

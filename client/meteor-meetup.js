@@ -1,23 +1,3 @@
-Meteor.startup(function(){
-
-	// Set group name from settings rather than waiting for a subscription to complete
-	var groupName = Meteor.settings.public.group.name;
-	
-	console.log(groupName + ' is alive.');
-	
-	document.title = groupName;
-	
-	document.getElementById('group-name').innerHTML = groupName;
-});
-
-Deps.autorun(function(){
-	var status = Meteor.status().status
-	var statusHolder = $('body');
-	statusHolder.removeClass('connected connecting failed waiting');
-	statusHolder.addClass(status);
-	$('.logo').attr('title', 'Meteor status: ' + status);
-});
-	
 // Prioritsed subscribtion... Get the importantThings first.
 Meteor.subscribe('importantThings', function(){
 	console.log('Got the important things');
@@ -113,10 +93,6 @@ Template.members.members = function(){
 	return Members.find({}, { sort: [['joined', 'desc']]}).fetch();
 };
 
-Template.sponsors.sponsors = function(){
-	return Groups.findOne() ? Groups.findOne().sponsors : null;
-};
-
 Template.upcomingMeetup.rendered = onLoad;
 
 Template.previousMeetup.rendered = onLoad;
@@ -130,3 +106,14 @@ Template.members.rendered = function(){
 function onLoad(){
 	$(this.findAll('.loading')).removeClass('loading');
 }
+
+Meteor.startup(function(){
+	// Connection status indicator... Add the status as a body class, and title attr to logo.
+	Deps.autorun(function(){
+		var status = Meteor.status().status;
+		var statusHolder = $('body');
+		statusHolder.removeClass('connected connecting failed waiting');
+		statusHolder.addClass(status);
+		$('.logo').attr('title', 'Meteor status: ' + status);
+	});
+})

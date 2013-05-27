@@ -1,5 +1,6 @@
 <head>
-	<title></title>
+	<title>Meet Meteor</title>
+	<meta name="description" content="Find a Meteor meetup near you">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" />
 	<script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
@@ -7,13 +8,10 @@
 
 <body>
 	<header>
-		<h1 class="brand"><div class="logo"></div><span id="group-name"></span></h1>
+		<h1 class="brand"><div class="logo"></div><span>Meet Meteor</span></h1>
 	</header>
 	<section id="upcoming-events">
 		{{> upcomingMeetup }}
-	</section>
-	<section id="sponsors">
-		{{> sponsors }}
 	</section>
 	<section id="previous-events">
 		{{> previousMeetup }}
@@ -31,33 +29,23 @@
 	{{#each events}}
 	<div class="block loading">
 		<h2>{{name}}</h2>
-		<p>
-			<time title="{{calandarFormat time}}" datetime="{{isoFormat time}}">{{dateTimeFormat time}}</time>
-			<span>- {{#if venue}}at: <a href="https://maps.google.com/?q={{venue.address_1}},{{venue.city}}">{{venue.name}}</a>
+		<p class="brand">
+			<span>{{group.name}}</span>
+			<span>{{#if venue}} at <a href="https://maps.google.com/?q={{venue.address_1}},{{venue.city}}">{{venue.name}}</a>
 				    {{else}}Venue TBC
 				    {{/if}}
 			</span>
-			<span>- {{yes_rsvp_count}} attendee{{#if yes_rsvp_count}}s{{/if}}</span>
 		</p>
 		{{{createMap venue}}}
+		<p>
+			<div class="attendee-count">{{yes_rsvp_count}} attending</div>
+			<time title="{{calandarFormat time}}" datetime="{{isoFormat time}}">{{dateTimeFormat time}}</time>
+		</p>
 		<div class="description">{{{description}}}</div>
 		<div class="countdown" title="{{calandarFormat time}}">{{fromNowFormat time}}</div>
-		<a class="meetup" href={{event_url}}></a>
+		<a class="meetup" href="{{event_url}}"></a>
 	</div>
 	{{/each}}
-</template>
-
-<template name="sponsors">
-	{{#if sponsors.length}}
-	<div class="block loading">
-		<h3>Sponsored by</h3>
-		{{#each sponsors}}
-		<div class="sponsor">
-			<a class="photo" href="{{url}}"><img src="{{image_url}}" alt="" title="{{details}}"></a>
-		</div>
-		{{/each}}
-	</div>
-	{{/if}}
 </template>
 
 <template name="previousMeetup">
@@ -68,7 +56,7 @@
 		<ul>
 			{{#each events}}
 			<li>
-				<div class="time">{{dateFormat time}} - {{yes_rsvp_count}} attended {{#if rating.count}}-  {{toFixed rating.average}} stars{{/if}}</div>
+				<div class="time">{{group.name}} - {{dateFormat time}} - {{yes_rsvp_count}} attended {{#if rating.count}}-  {{toFixed rating.average}} stars{{/if}}</div>
 				<a class="name" href="{{event_url}}">{{name}}</a>
 			</li>
 			{{/each}}

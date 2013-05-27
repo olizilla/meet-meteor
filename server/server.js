@@ -14,6 +14,10 @@ var meetup = {
 
     api: 'https://api.meetup.com',
 
+    pollFrequency: 1000 * 60 * 10, // poll api.meetup.com every 10 mins
+
+    throttle: 1000 * 2, // 2 seconds between requests
+
     groups: function group(opts, cb){
         this.get(this.api + '/2/groups', opts, cb);
     },
@@ -42,21 +46,38 @@ var meetup = {
 
         opts.key = Meteor.settings.meetupApiKey,
 
-        opts.group_id = Meteor.settings.public.group.id,
+        this.queue.push(function(){
 
-        Meteor.http.get(url, { params: opts }, function(error, response){
+            console.log('Requesting:', url, opts.group_urlname);
 
-            console.log('GOT:', response.statusCode, url);
+            // TODO: Handle blocked & throttled error responses.
+            Meteor.http.get(url, { params: opts }, function(error, response){
 
-            if(!response.data.results){ // bad ju ju
-                var errorMsg = "Response lacks requisit data";
-                console.log(errorMsg, response);
-                cb(errorMsg);
-            }
+                console.log('GOT:', response.statusCode, url);
 
-            // OK GO!
-            cb(error, response);
+                if(!response.data.results){ // bad ju ju
+                    var errorMsg = "Response lacks requisit data";
+                    console.log(errorMsg, response);
+                    cb(errorMsg);
+                }
+
+                // OK GO!
+                cb(error, response);
+            });    
         });
+
+        console.log('Queued request', url, opts.group_urlname);
+    },
+
+    queue: [],
+
+    startRequestQueue: function(){
+        this.queueIntervalId = Meteor.setInterval(function(){
+            var nextRequest = meetup.queue.shift();
+            if(nextRequest){
+                nextRequest();
+            }
+        }, meetup.throttle);
     }
 };
 
@@ -73,7 +94,7 @@ function updateOrInsert(collection, doc, idField){
     }
 }
 
-// Get data from meetup and insert or update a local collection with the data
+// Get data from meetup and insert or update it to a local collection
 function sync(method, opts, collection, idField){
     idField = idField || 'id';
 
@@ -98,23 +119,18 @@ function sync(method, opts, collection, idField){
     });
 }
 
-// get /groups data from api.meetup.com; add or update the Groups collection.
+// Sync all the things! For each group, sync the interesting data
 function syncGroups(){
-    sync('groups', { fields: 'sponsors,short_link', omit:'topics' }, Groups);
-}
+    var groupUrlNames = Meteor.settings.public.groups;
 
-// get /events data from api.meetup.com; add or update the Events collection.
-function syncEvents(){
-    sync('events', { status: 'past,upcoming,cancelled' }, Events);
-}
+    groupUrlNames.forEach(function(name, index){
+        sync('groups', { group_urlname: name, fields: 'sponsors,short_link', omit:'topics' }, Groups);
+        sync('events', { group_urlname: name, status: 'past,upcoming,cancelled' }, Events);
+        sync('photos', { group_urlname: name }, Photos, 'photo_id');
+        // sync('members', { group_urlname: name, omit: 'topics' }, Members);
+    });
 
-// get /photos data from api.meetup.com; add or update the Photos collection.
-function syncPhotos(){
-    sync('photos', {}, Photos, 'photo_id');
-}
-
-function syncMembers(){
-    sync('members', { omit: 'topics' }, Members); // TODO: handle paging...
+    console.log('Next sync in '+ meetup.pollFrequency / 1000 +'s \n');    
 }
 
 // It begins. Get meetup data and push it into local collections. Rinse. Repeat.
@@ -131,13 +147,9 @@ Meteor.startup(function(){
         return;
     }
 
-    console.log('Contacting api.meetup.com in 60s...\n');    
+    meetup.startRequestQueue(); // We have to throttle the api requests
 
-    Meteor.setInterval(syncGroups, 1000 * 60);
-
-    Meteor.setInterval(syncEvents, 1000 * 60);
-
-    Meteor.setInterval(syncPhotos, 1000 * 60);
+    syncGroups();
     
-    Meteor.setInterval(syncMembers, 1000 * 60);
+    Meteor.setInterval(syncGroups, meetup.pollFrequency);
 });

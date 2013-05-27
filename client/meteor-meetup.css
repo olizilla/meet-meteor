@@ -96,6 +96,9 @@ footer .logo{
 	font-weight: 900;
 	letter-spacing: -1px;
 }
+p.brand{
+    margin:10px 0;
+}
 #login-buttons{
 	float:right;
 	padding:14px 0 0 0;
@@ -104,7 +107,7 @@ footer .logo{
 	background: none repeat scroll 0 0 rgba(255, 255, 255, 0.8);
 	border-radius: 3px;
 	box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.15);
-	margin: 1em auto;
+	margin: 3em auto;
 	padding: 10px 26px;
 	min-height: 80px;
 	position: relative;
@@ -126,6 +129,12 @@ footer .logo{
 }
 #previous-events li{
     list-style: none;
+}
+.block h1{
+    position: relative;
+    top:-1em;
+    display: inline-block;
+    margin: 0 auto;
 }
 .block h2,
 a.name {
@@ -151,6 +160,12 @@ a.name {
     padding:6px 16px;
     background: gold;
     box-shadow: 2px 2px 3px rgba(0,0,0,0.1);
+}
+.block time {
+    font-weight: 900;
+}
+.block .attendee-count{
+    float: right;
 }
 .photo{
     background: #eee;
@@ -180,9 +195,13 @@ a.name {
 }
 .meetup{
     display:inline-block;
-    width:66px;
     height:45px;
     background: url(http://img2.meetupstatic.com/906521611995523788/img/header/logo.png) no-repeat;
+    padding:0 68px;
+    color: #333;
+}
+.meetup .name{
+    background: white;
 }
 .block .meetup{
     position: absolute; top:-11px; left:-15px;
