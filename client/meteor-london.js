@@ -10,6 +10,14 @@ Meteor.startup(function(){
 	document.getElementById('group-name').innerHTML = groupName;
 });
 
+Deps.autorun(function(){
+	var status = Meteor.status().status
+	var statusHolder = $('body');
+	statusHolder.removeClass('connected connecting failed waiting');
+	statusHolder.addClass(status);
+	$('.logo').attr('title', 'Meteor status: ' + status);
+});
+	
 // Prioritsed subscribtion... Get the importantThings first.
 Meteor.subscribe('importantThings', function(){
 	console.log('Got the important things');

@@ -68,8 +68,18 @@ h1{
     width:23px;
     height:23px;
     border-radius: 23px;
-    background: #fff;
+    background: #A9A9A9;
     box-shadow: inset 4px 2px 2px rgba(0,0,0,0.4);
+    transition: background-color 0.8s;
+}
+body.connected .logo{
+    background-color: #FFFFFF;
+}
+body.connecting .logo{
+    background-color: #A9A9A9;
+}
+body.waiting .logo{
+    background-color: #CD2626;
 }
 header .logo{
     margin:0 8px 0 -4px;
