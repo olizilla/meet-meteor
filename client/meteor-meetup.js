@@ -96,8 +96,9 @@ Template.members.members = function(){
 Template.upcomingMeetup.rendered = onLoad;
 
 Template.previousMeetup.rendered = onLoad;
+
 Template.photos.rendered = onLoad;
-Template.sponsors.rendered = onLoad;
+
 Template.members.rendered = function(){
 	$(this.findAll('.loading')).removeClass('loading');
 	membersGraph({width: 120, height: 50});
@@ -116,4 +117,4 @@ Meteor.startup(function(){
 		statusHolder.addClass(status);
 		$('.logo').attr('title', 'Meteor status: ' + status);
 	});
-})
+});
