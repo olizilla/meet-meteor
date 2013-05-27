@@ -21,9 +21,9 @@ Getting started
     "meetupApiKey": "get your key from http://www.meetup.com/meetup_api/key/",
     "public": {
     	"groups":[
-            'Meteor-London',
-            'Meteor-Paris',
-            'Meteor-Etc',
+            "Meteor-London",
+            "Meteor-Paris",
+            "Meteor-Etc",
         ]
     }
 }
