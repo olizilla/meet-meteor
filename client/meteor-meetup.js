@@ -45,10 +45,6 @@ Template.upcomingMeetup.createMap = function(venue) {
 			zoomControl:false,
 			attributionControl:false
 		});
-
-		map.on('click', function(){
-			map.setView(latlon, 16);
-		})
 		
 		L.tileLayer('http://{s}tile.stamen.com/toner/{z}/{x}/{y}.png', {
 			"minZoom":      0,
@@ -63,14 +59,18 @@ Template.upcomingMeetup.createMap = function(venue) {
 			title: venue.name,
 			riseOnHover:true
 		});
-		
-		marker.on('click', function(){
-			map.setView(latlon, 16);
-		})
 
 		marker.addTo(map);
 
-		map.setView(latlon, 16);
+		map.setView(latlon, 11);
+
+		map.on('click', function(){
+			map.setView(latlon, 16);
+		});
+
+		marker.on('click', function(){
+			map.setView(latlon, 16);
+		});
 		
 	}, 1000);
 
