@@ -32,15 +32,14 @@
 	<div class="block loading">
 		<h2>{{name}}</h2>
 		<p>
-			<span title="{{dateTimeFormat time}}">{{dateTimeFormat time}}</span>
+			<time title="{{calandarFormat time}}" datetime="{{isoFormat time}}">{{dateTimeFormat time}}</time>
 			<span>- {{#if venue}}at: <a href="https://maps.google.com/?q={{venue.address_1}},{{venue.city}}">{{venue.name}}</a>
 				    {{else}}Venue TBC
 				    {{/if}}
 			</span>
 			<span>- {{yes_rsvp_count}} attendee{{#if yes_rsvp_count}}s{{/if}}</span>
 		</p>
-		<div id="tmp-map" class="map"></div>
-		{{createMap venue}}
+		{{{createMap venue}}}
 		<div class="description">{{{description}}}</div>
 		<div class="countdown">{{fromNowFormat time}}</div>
 		<a class="meetup" href={{event_url}}></a>

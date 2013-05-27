@@ -20,7 +20,7 @@ Meteor.subscribe('importantThings', function(){
 });
 
 Template.upcomingMeetup.events = function(){
-	return Events.find({time: { $gt: Date.now() }}, { sort: [['time', 'desc']]}).fetch();
+	return Events.find({time: { $gt: Date.now() }}, { sort: [['time', 'asc']]}).fetch();
 };
 
 Template.previousMeetup.events = function(){
@@ -35,11 +35,17 @@ Template.upcomingMeetup.calandarFormat = function(ms){
 	return moment(ms).calendar();
 };
 
+Template.upcomingMeetup.isoFormat = function(ms){
+	return moment(ms).format();
+};
+
 Template.upcomingMeetup.dateTimeFormat = function(ms){
 	return moment(ms).format('MMMM Do YYYY, h:mm a');
 };
 
 Template.upcomingMeetup.createMap = function(venue) {
+
+	var mapId = "venue-" + venue.id;
 	
 	setTimeout(function() {
 		
@@ -47,10 +53,14 @@ Template.upcomingMeetup.createMap = function(venue) {
 			return;
 		}
 		
-		var map = L.map('tmp-map', {
+		var map = L.map(mapId, {
 			zoomControl:false,
 			attributionControl:false
 		});
+
+		map.on('click', function(){
+			map.setView(latlon, 16);
+		})
 		
 		L.tileLayer('http://{s}tile.stamen.com/toner/{z}/{x}/{y}.png', {
 			"minZoom":      0,
@@ -65,12 +75,18 @@ Template.upcomingMeetup.createMap = function(venue) {
 			title: venue.name,
 			riseOnHover:true
 		});
+		
+		marker.on('click', function(){
+			map.setView(latlon, 16);
+		})
 
 		marker.addTo(map);
 
 		map.setView(latlon, 16);
 		
 	}, 1000);
+
+	return '<div id="' + mapId + '" class="map"></div>';
 };
 
 Template.previousMeetup.dateFormat = function(ms){
@@ -94,16 +110,15 @@ Template.sponsors.sponsors = function(){
 };
 
 Template.upcomingMeetup.rendered = onLoad;
+
 Template.previousMeetup.rendered = onLoad;
 Template.photos.rendered = onLoad;
 Template.sponsors.rendered = onLoad;
 Template.members.rendered = function(){
-	var loadings = $(this.find('.loading'));
-	loadings.removeClass('loading');
+	$(this.findAll('.loading')).removeClass('loading');
 	membersGraph({width: 120, height: 50});
 };
 
 function onLoad(){
-	var loadings = $(this.find('.loading'));
-	loadings.removeClass('loading');
+	$(this.findAll('.loading')).removeClass('loading');
 }
