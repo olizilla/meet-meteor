@@ -39,7 +39,7 @@
 		{{{createMap venue}}}
 		<p>
 			<div class="attendee-count">{{yes_rsvp_count}} attending</div>
-			<time title="{{calandarFormat time}}" datetime="{{isoFormat time}}">{{dateTimeFormat time}}</time>
+			<time title="{{calandarFormat time}}" datetime="{{isoFormat time}}">{{dateTimeFormat time utc_offset timezone}}</time>
 		</p>
 		<div class="description">{{{description}}}</div>
 		<div class="countdown" title="{{calandarFormat time}}">{{fromNowFormat time}}</div>

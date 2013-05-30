@@ -27,20 +27,30 @@ Template.upcomingMeetup.isoFormat = function(ms){
 	return moment(ms).format();
 };
 
-Template.upcomingMeetup.dateTimeFormat = function(ms){
-	return moment(ms).format('MMMM Do YYYY, h:mm a');
+Template.upcomingMeetup.dateTimeFormat = function(ms, offset, timezone){
+	var date = moment(ms);
+	var localDate = date.add('ms', parseInt(offset, 10));
+	timezone = timezone ? ' (' + timezone + ')' : '';
+	return localDate.format('MMMM Do YYYY, h:mm a') + timezone ;
 };
 
 Template.upcomingMeetup.createMap = function(venue) {
 
+	if(!venue) {
+		return;
+	}
+
 	var mapId = "venue-" + venue.id;
 	
 	setTimeout(function() {
-		
-		if(!venue) {
-			return;
+
+		var mapContainer = document.getElementById(mapId);
+
+		if(!mapContainer || $(mapContainer).hasClass('leaflet-container')){
+			console.info('Not updating map', mapContainer); // TODO: handle venue change. Map should redraw if lat/lng is different
 		}
-		
+			
+		// TODO: This gets called multiple times, and bombs if the map is already initialised.
 		var map = L.map(mapId, {
 			zoomControl:false,
 			attributionControl:false

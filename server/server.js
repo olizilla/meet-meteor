@@ -125,7 +125,7 @@ function syncGroups(){
 
     groupUrlNames.forEach(function(name, index){
         sync('groups', { group_urlname: name, fields: 'sponsors,short_link', omit:'topics' }, Groups);
-        sync('events', { group_urlname: name, status: 'past,upcoming,cancelled' }, Events);
+        sync('events', { group_urlname: name, fields: 'timezone', status: 'past,upcoming,cancelled' }, Events);
         sync('photos', { group_urlname: name }, Photos, 'photo_id');
         // sync('members', { group_urlname: name, omit: 'topics' }, Members);
     });
